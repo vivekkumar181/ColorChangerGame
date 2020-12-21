@@ -36,6 +36,7 @@ public class MainActivity extends AppCompatActivity {
     final ArrayList<Object> arry1 = new ArrayList<Object>();
     Handler handler;
     LinearLayout lyt1;
+    Thread animator;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -63,23 +64,8 @@ public class MainActivity extends AppCompatActivity {
             genTask.started = false;
             timeoutTimer.cancel();
         }
+        ActivateThread();
 
-        final Thread animator = new Thread() {
-            public void run() {
-                int i = 0;
-                try {
-                    sleep(4000);
-                    while (i < 4) {
-                        sleep(50);
-                        handler.sendMessage(handler.obtainMessage(i));
-                        i++;
-                    }
-                } catch (Exception e) {
-
-                }
-            }
-        };
-        animator.start();
         lyt1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -134,7 +120,7 @@ public class MainActivity extends AppCompatActivity {
                 animator.interrupt();
                 if (Value.equals("[[0]]")) {
                     txtscore1.setText(String.valueOf(score++));
-                    animator.start();
+                    ActivateThread();
                 } else {
                     String totalscore = txtscore1.getText().toString().trim();
                     timeoutTimer.cancel();
@@ -169,7 +155,7 @@ public class MainActivity extends AppCompatActivity {
                 animator.interrupt();
                 if (Value.equals("[[1]]")) {
                     txtscore1.setText(String.valueOf(score++));
-                    animator.start();
+                    ActivateThread();
                 } else {
                     String totalscore = txtscore1.getText().toString().trim();
                     timeoutTimer.cancel();
@@ -205,7 +191,7 @@ public class MainActivity extends AppCompatActivity {
                 animator.interrupt();
                 if (Value.equals("[[2]]")) {
                     txtscore1.setText(String.valueOf(score++));
-                    animator.start();
+                    ActivateThread();
                 } else {
                     String totalscore = txtscore1.getText().toString().trim();
                     timeoutTimer.cancel();
@@ -240,7 +226,7 @@ public class MainActivity extends AppCompatActivity {
                 animator.interrupt();
                 if (Value.equals("[[3]]")) {
                     txtscore1.setText(String.valueOf(score++));
-                    animator.start();
+                    ActivateThread();
                 } else {
                     String totalscore = txtscore1.getText().toString().trim();
                     timeoutTimer.cancel();
@@ -268,6 +254,26 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+    }
+
+    private void ActivateThread() {
+
+        animator = new Thread() {
+            public void run() {
+                int i = 0;
+                try {
+                    sleep(4000);
+                    while (i < 4) {
+                        sleep(50);
+                        handler.sendMessage(handler.obtainMessage(i));
+                        i++;
+                    }
+                } catch (Exception e) {
+
+                }
+            }
+        };
+        animator.start();
     }
 
 
